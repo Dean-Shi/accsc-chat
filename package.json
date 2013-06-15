@@ -15,9 +15,9 @@
     "jade"       : "0.31.2",
     "socket.io"  : "0.9.16",
     "underscore" : "1.4.4",
-    "stylus"     : "latest",
-    "nib"        : "latest",
-    "nodemon"    : "latest"
+    "stylus"     : "0.32.1",
+    "nib"        : "0.9.1",
+    "nodemon"    : "0.7.8"
   },
 
   "scripts" : {

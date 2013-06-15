@@ -21,16 +21,9 @@ app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.use(express.compress({
-  filter: function(req, res) {
-    return /json|text|javascript|css/.test(res.getHeader('Content-Type'));
-  },
-  level: 9
-}));
-
 app.use(stylus.middleware({
-	src: __dirname + '/public'
-, compile: compile
+  src: __dirname + '/public',
+  compile: compile
 }));
 
 app.use(express.logger('dev'));
