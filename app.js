@@ -4,6 +4,8 @@ var express  = require('express');
 var http     = require('http');
 var socketio = require('socket.io');
 var _        = require('underscore');
+var stylus   = require('stylus');
+var nib      = require('nib');
 
 
 // Project constants
@@ -18,6 +20,11 @@ var app = express();
 app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+app.use(stylus.middleware({
+  src: __dirname + '/public',
+  compile: compile
+}));
 
 app.use(express.logger('dev'));
 app.use(app.router);
@@ -73,3 +80,15 @@ io.sockets.on('connection', function (socket) {
 server.listen(app.get('port'), function () {
   console.log('Listening on port ' + app.get('port'));
 });
+
+
+// Includes nib lib, compiles and compress stylus files
+// ============= 
+function compile(str, path) {
+  return stylus(str)
+    .set('filename', path)
+    .set('compress', true)
+    .use(nib())
+    .import('nib');
+}
+
