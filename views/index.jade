@@ -1,0 +1,19 @@
+doctype 5
+html(lang="en")
+  head
+    title= name
+    script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+    script(src="/socket.io/socket.io.js")
+  body
+    #header
+      h1= name
+      
+    #container
+      textarea(id="board", name="board", cols="30", rows="10", readonly)
+
+    #footer
+      #input
+        input(type="text", name="message")
+        button Send
+
+    script(src="/js/chat.js")
