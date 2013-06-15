@@ -49,12 +49,16 @@ var sockets = [];
 io.sockets.on('connection', function (socket) {
   sockets.push(socket);
 
-  socket.emit('sendhistory', history.join('\n'));
+  socket.emit('se_history', history);
 
-  socket.on('sendmessage', function (message) {
+  socket.on('ce_message', function (message) {
+    // - ignore any empty content
+    if (null == message || message.match(/^\s*$/))
+      return;
+
     history.push(message);
     _.each(sockets, function (user) {
-      user.emit('boardcast', message);
+      user.emit('se_boardcast', message);
     });
   });
 
