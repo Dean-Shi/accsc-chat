@@ -1,8 +1,11 @@
-doctype 5
+!!!
 html(lang="en")
   head
     title= name
+    meta(charset="utf-8")
 
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/flat-ui.css')
     link(rel='stylesheet', href='/css/chat.css')
 
     script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js")
@@ -11,17 +14,25 @@ html(lang="en")
 
     script(src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js")
     script(src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js")
+
     script(src="/socket.io/socket.io.js")
 
   body
-    #header
-      #title= name
+    header
+      .navbar.navbar-fixed-top.navbar-inverse
+        .navbar-inner
+          .container-fluid
+            #title.nav= name
+            .nav.pull-right
+              form.navbar-form.pull-left
+                input#input-nickname.span3.search-query(type="text", placeholder="Set Nickname Here")
+                button#btn-nickname.btn.btn-primary(type="submit") Set Nickname
 
-    #container
+    #container.container-fluid
       #board
         #boardend
 
-    #footer
+    footer
       #input
         #footer-wrapper
           textarea#message
