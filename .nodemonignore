@@ -1,0 +1,6 @@
+/public/*
+*.md
+/views/*
+*.swp
+*.swx
+.gitignore
