@@ -1,7 +1,7 @@
 // Global Variables
 // ================
 var socket;
-var flagBottom = false;
+var flagBottom = true;
 
 // Selectors
 // =========
@@ -19,7 +19,7 @@ var appendContent = function (content) {
     contentBlock.append($("<span>", {class: "line"}).text(lines[i])).append("<br>");
 
   $($BOARD_END).before(contentBlock);
-  
+
   if (flagBottom)
     $($BOARD).scrollTo($BOARD_END);
 }
