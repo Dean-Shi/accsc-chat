@@ -26,32 +26,16 @@ html(lang="en")
       // navbar
       .navbar.navbar-fixed-top.navbar-inverse
         .navbar-inner
-          .container
-            .nav-collapse.collapse
-              ul.nav
-                li
-                  a(href="#")= name
-                li.active
-                  a(href="#") optionButton
-                  ul
-                    li
-                      a(href="#") option 1
-                    li
-                      a(href="#") option 2
-                    li
-                      a(href="#") option 3
-              ul.nav.pull-right
-                li.dropdown
-                  button.btn.dropdown-toggle.clearfix.btn-primary.select(href="#", data-toggle="dropdown") optionButton
-                    span.caret(style="border-top-color: #fff;border-bottom-color: #fff;")
-                  ul.dropdown-menu(role="menu", style="top: 80%")
-                    li
-                      a(href="#") option 1
-                    li
-                      a(href="#") option 2
-                    li
-                      a(href="#") option 3
-      // / navbar
+          .nav-collapse.collapse
+            ul.nav
+              li
+                a(href="#")= name
+            ul.nav.pull-right
+              li
+                form.navbar-form.pull-left
+                  input#input-nickname.span2.search-query(type="text")
+                  button#btn-nickname.btn.btn-primary(type="submit") Set Nickname
+            
     #container
       #board
         #boardend
