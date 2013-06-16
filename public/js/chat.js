@@ -1,20 +1,27 @@
 // Global Variables
 // ================
 var socket;
+var flagBottom = false;
 
 // Selectors
 // =========
 var $MESSAGE = "#message"
 var $BOARD = "#board"
-var $LATEST_TAG;
+var $BOARD_END = "#boardend"
 
 
 // Utility Methods
 // ===============
 var appendContent = function (content) {
-  var tag = "t" + (new Date().getTime()) + "-" + (Math.random() + "").substring(2);
-  $($BOARD).append($("<div>", {id: tag, class: "content"}).text(content));
-  $LATEST_TAG = "#" + tag;
+  var contentBlock = $("<div>", {class: "content"});
+  var lines = content.split('\n');
+  for (var i = 0; i < lines.length; i++)
+    contentBlock.append($("<span>", {class: "line"}).text(lines[i])).append("<br>");
+
+  $($BOARD_END).before(contentBlock);
+  
+  if (flagBottom)
+    $($BOARD).scrollTo($BOARD_END);
 }
 
 var sendMessage = function () {
@@ -52,10 +59,15 @@ $(function () {
         // TODO more events (e.g., Ctrl + UP/DOWN for history)
       }
     });
-  }
 
-  var setupScrollTimer = function () {
-    $()
+    $($BOARD).scroll(function () {
+      var $this = $(this);
+
+      if ($this[0].offsetHeight + $this[0].scrollTop >= $this[0].scrollHeight)
+        flagBottom = true;
+      else
+        flagBottom = false;
+    });
   }
 
   setupSocketIOHandlers();
