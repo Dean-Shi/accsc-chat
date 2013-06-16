@@ -62,8 +62,10 @@ $(function () {
     $($MESSAGE).keydown(function (e) {
       switch (e.keyCode) {
         case 13: // Enter/Return
-          if (e.ctrlKey)
+          if (e.ctrlKey) {
+            e.preventDefault();
             sendMessage();
+          }
           break;
         // TODO more events (e.g., Ctrl + UP/DOWN for history)
       }
