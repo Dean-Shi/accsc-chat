@@ -12,9 +12,18 @@ var $BOARD_END = "#boardend"
 
 // Utility Methods
 // ===============
-var appendContent = function (content) {
+var appendContent = function (packet) {
   var contentBlock = $("<div>", {class: "content"});
-  var lines = content.split('\n');
+  var lines = packet.content.split('\n');
+
+  var timestamp = new Date(packet.timestamp);
+  var currentTime = "[" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds() + "]";
+
+  var $nickname = $("<span>", {class: "nickname"}).text(packet.nickname);
+  var $timestamp = $("<span>", {class: "timestamp"}).text(currentTime);
+  var $header = $("<span>", {class: "header"}).append($timestamp).append($nickname).append("says:");
+
+  contentBlock.append($header).append("<br>");
   for (var i = 0; i < lines.length; i++)
     contentBlock.append($("<span>", {class: "line"}).text(lines[i])).append("<br>");
 

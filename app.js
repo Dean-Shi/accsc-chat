@@ -63,6 +63,15 @@ io.sockets.on('connection', function (socket) {
     if (null == message || message.match(/^\s*$/))
       return;
 
+    var nickname = socket.nickname
+      || (socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address).replace(/[0-9]*\.[0-9]*$/, "*.*");
+
+    message = {
+      nickname: nickname,
+      timestamp: new Date(),
+      content: message,
+    };
+
     history.push(message);
     _.each(sockets, function (user) {
       user.emit('se_boardcast', message);
