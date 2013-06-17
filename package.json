@@ -1,0 +1,26 @@
+{
+  "name"        : "accsc-chat",
+  "version"     : "0.0.1",
+  "auther"      : "Vince Zhao <vince.zhaowenxuan@gmail.com>",
+  "description" : "An alternative of QQ",
+
+  "private"    : true,
+  "repository" : {
+    "type"     : "git",
+    "url"      : "ssh://git@gitlab.vince.im:6677/accsc-projects/accsc-chat.git"
+  },
+
+  "dependencies" : {
+    "express"    : "3.2.5",
+    "jade"       : "0.31.2",
+    "socket.io"  : "0.9.16",
+    "underscore" : "1.4.4",
+    "stylus"     : "0.32.1",
+    "nib"        : "0.9.1",
+    "nodemon"    : "0.7.8"
+  },
+
+  "scripts" : {
+    "start" : "nodemon app.js"
+  }
+}
