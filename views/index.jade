@@ -4,6 +4,8 @@ html(lang="en")
     title= name
     meta(charset="utf-8")
 
+    link(rel='shortcut icon', type='image/x-icon', href='/favicon.ico')
+
     link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/flat-ui.css')
     link(rel='stylesheet', href='/css/chat.css')
@@ -25,7 +27,7 @@ html(lang="en")
             #title.nav= name
             .nav.pull-right
               form.navbar-form.pull-left
-                input#input-nickname.span3.search-query(type="text", placeholder="Set Nickname Here")
+                input#input-nickname.span3.search-query(type="text", placeholder="Nickname")
                 button#btn-nickname.btn.btn-primary(type="submit") Set Nickname
 
     #container.container-fluid
