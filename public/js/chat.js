@@ -8,6 +8,8 @@ var flagBottom = true;
 var $MESSAGE = "#message"
 var $BOARD = "#board"
 var $BOARD_END = "#boardend"
+var $INPUT_NICKNAME = "#input-nickname"
+var $BTN_NICKNAME = "#btn-nickname"
 
 
 // Utility Methods
@@ -123,6 +125,22 @@ $(function () {
         flagBottom = true;
       else
         flagBottom = false;
+    });
+
+    var updateNickname = function (nickname) {
+      socket.emit("ce_message", "/nick " + $($NICKNAME).val());
+    }
+
+    $($INPUT_NICKNAME).keydown(function (e) {
+      if (13 == e.keyCode) {
+        e.preventDefault();
+        updateNickname();
+      }
+    });
+
+    $($BTN_NICKNAME).click(function (e) {
+      e.preventDefault();
+      updateNickname();
     });
   }
 

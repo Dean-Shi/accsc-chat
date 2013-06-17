@@ -70,8 +70,15 @@ io.sockets.on('connection', function (socket) {
 
     switch (cmd) {
       case "/nick":
+        arg = arg.trim();
+
         if (arg === socket.nickname) {
-          feedback.error = "Your nickname is already set to [" + arg + "]";
+          feedback.error = "Your nickname is already set to [" + arg + "]!";
+          break;
+        }
+
+        if ("" === socket.nickname) {
+          feedback.error = "Nickname cannot be empty!"
           break;
         }
 
@@ -90,7 +97,7 @@ io.sockets.on('connection', function (socket) {
         }
 
         socket.nickname = arg;
-        feedback.message = "Your nickname is now set to [" + arg + "]";
+        feedback.message = "Your nickname is now set to [" + arg + "].";
 
         break;
       default:
