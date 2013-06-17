@@ -33,6 +33,42 @@ var appendContent = function (packet) {
     $($BOARD).scrollTo($BOARD_END);
 }
 
+var appendSystemMessage = function (type, sender, currentTime, lines) {
+  var contentBlock = $("<div>", {class: type});
+
+  var $sender = $("<span>", {class: "nickname"}).text(sender);
+  var $timestamp = $("<span>", {class: "timestamp"}).text(currentTime);
+  contentBlock.append($sender).append($timestamp).append("<br>");
+  for (var i = 0; i < lines.length; i++)
+    contentBlock.append($("<span>", {class: "line"}).text(lines[i])).append("<br>");
+
+  $($BOARD_END).before(contentBlock);
+
+  if (flagBottom)
+    $($BOARD).scrollTo($BOARD_END);
+}
+
+var handleSystemEvent = function (packet) {
+  var timestamp = new Date(packet.timestamp);
+  var currentTime = "[" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds() + "]";
+
+  if (packet.error) {
+    var sender = "[Error]";
+    var lines = packet.error.split('\n');
+
+    appendSystemMessage("error", sender, currentTime, lines);
+  }
+
+  if (packet.message) {
+    var sender = "[System]";
+    var lines = packet.message.split('\n');
+
+    appendSystemMessage("system", sender, currentTime, lines);
+  }
+
+  // TODO handle other feedbacks
+}
+
 var sendMessage = function () {
   socket.emit("ce_message", $($MESSAGE).val());
   $($MESSAGE).val("");
@@ -53,8 +89,17 @@ $(function () {
       };
     });
     
-    socket.on("se_boardcast", function (message) {
-      appendContent(message);
+    socket.on("se_sendpacket", function (packet) {
+      switch (packet.type.split('/', 1)[0]) {
+        case "text":
+          appendContent(packet);
+          break;
+        case "system":
+          handleSystemEvent(packet);
+          break;
+        default:
+          console.log("Unable to handle packet: " + JSON.stringfy(packet));
+      }
     });
   }
 

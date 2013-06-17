@@ -54,6 +54,52 @@ var history = [];
 var sockets = [];
 
 io.sockets.on('connection', function (socket) {
+  var handleCommand = function (cmd) {
+    var arg = "";
+
+    if (-1 != cmd.indexOf(' ')) {
+      arg = cmd.substr(cmd.indexOf(' ') + 1);
+      cmd = cmd.split(' ', 1)[0];
+    }
+
+    var feedback = {
+      type: "system/feedback",
+      timestamp: new Date(),
+      cmd: cmd
+    }
+
+    switch (cmd) {
+      case "/nick":
+        if (arg === socket.nickname) {
+          feedback.error = "Your nickname is already set to [" + arg + "]";
+          break;
+        }
+
+        var available = true;
+
+        for (var i = 0; i < sockets.length; i++) {
+          if (sockets[i].nickname === arg) {
+            available = false;
+            break;
+          }
+        }
+
+        if (!available) {
+          feedback.error = "Nickname [" + arg + "] is already in use!";
+          break;
+        }
+
+        socket.nickname = arg;
+        feedback.message = "Your nickname is now set to [" + arg + "]";
+
+        break;
+      default:
+        feedback.error = "Commond not found or permission denied.";
+    }
+
+    socket.emit('se_sendpacket', feedback);
+  }
+
   sockets.push(socket);
 
   socket.emit('se_history', history);
@@ -63,18 +109,24 @@ io.sockets.on('connection', function (socket) {
     if (null == message || message.match(/^\s*$/))
       return;
 
+    if (0 == message.indexOf('/')) {
+      handleCommand(message);
+      return;
+    }
+
     var nickname = socket.nickname
       || (socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address).replace(/[0-9]*\.[0-9]*$/, "*.*");
 
-    message = {
+    var text = {
+      type: "text/plain",
       nickname: nickname,
       timestamp: new Date(),
       content: message,
     };
 
-    history.push(message);
+    history.push(text);
     _.each(sockets, function (user) {
-      user.emit('se_boardcast', message);
+      user.emit('se_sendpacket', text);
     });
   });
 
