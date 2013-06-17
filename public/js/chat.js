@@ -14,12 +14,17 @@ var $BTN_NICKNAME = "#btn-nickname"
 
 // Utility Methods
 // ===============
+var showTime = function (timestamp) {
+  var options = {hour: "numeric", minute: "numeric", second: "numeric", hour12: false};
+  return timestamp.toLocaleString("en-US", options);
+};
+
 var appendContent = function (packet) {
   var contentBlock = $("<div>", {class: "content"});
   var lines = packet.content.split('\n');
 
   var timestamp = new Date(packet.timestamp);
-  var currentTime = "[" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds() + "]";
+  var currentTime = showTime(timestamp);
 
   var $nickname = $("<span>", {class: "nickname"}).text(packet.nickname);
   var $timestamp = $("<span>", {class: "timestamp"}).text(currentTime);
@@ -52,7 +57,7 @@ var appendSystemMessage = function (type, sender, currentTime, lines) {
 
 var handleSystemEvent = function (packet) {
   var timestamp = new Date(packet.timestamp);
-  var currentTime = "[" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds() + "]";
+  var currentTime = showTime(timestamp);
 
   if (packet.error) {
     var sender = "[Error]";
@@ -128,7 +133,7 @@ $(function () {
     });
 
     var updateNickname = function (nickname) {
-      socket.emit("ce_message", "/nick " + $($NICKNAME).val());
+      socket.emit("ce_message", "/nick " + $($INPUT_NICKNAME).val());
     }
 
     $($INPUT_NICKNAME).keydown(function (e) {
